@@ -6,6 +6,7 @@ export const useModal = () => {
 
   const modal_1 = ref(false) // モーダル「何算？」
   const modal_2 = ref(false) // モーダル「何マス？」
+  formsColor.value = [true,false,false,false] // マス目の色初期化
 
   // 何算か
   const modalSwitch_plus = () => {

@@ -129,7 +129,7 @@ const ansSet = () => {
 }
 
 // 入力装置
-const numKeys = ref([1,2,3,4,5,6,7,8,9,'♪','けす',0]) //SVGを配列に入れて表示できたらそれがベスト
+const numKeys = ref([1,2,3,4,5,6,7,8,9,'♪','x',0]) //SVGを配列に入れて表示できたらそれがベスト
 
 // 答え入力、答え合わせロジック
 const forms: Ref<string[]> = ref([])
@@ -143,7 +143,7 @@ let f = ref(0) // フォームの位置を決める数字
 const form_in = (index: number) => {
   if (numKeys.value[index] === '♪') { // 音符が押されたら
     alert('ピンポン')
-  } else if (numKeys.value[index] === 'けす') { // けすが押されたら
+  } else if (numKeys.value[index] === 'x') { // けすが押されたら
     forms.value[f.value] = ''
   } else { // 数字が押されたら
     if (forms.value[f.value].length < 2) { // 二文字制限
