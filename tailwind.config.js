@@ -4,11 +4,15 @@ module.exports = {
     theme: {
         extend: {
             animation: {
-                jello_horizontal: 'jello_horizontal 0.8s ease both',
-                'spin-slow': 'spin 5s linear infinite',
+                a: 'a 0.8s ease both',
+                wiggle: 'wiggle 1s ease-in-out infinite'
             },
             keyframes: {
-                jello_horizontal: {
+                wiggle: {
+                    '0%, 100%': { transform: 'rotate(-3deg)' },
+                    '50%': { transform: 'rotate(3deg)' },
+                },
+                a: {
                     '0%,to': {
                         transform: 'scale3d(1, 1, 1)'
                     },

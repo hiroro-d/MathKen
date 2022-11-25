@@ -23,10 +23,12 @@
             </ul><!-- 縦の問題マス -->
             <ul class="flex flex-wrap w-2/3 h-full">
               <li id="form" v-for="(form, indexF) in forms" v-bind:class="{formsBgc: formsColor[indexF]}" 
-                class="border rounded border-t-0 border-l-0 w-1/2 h-1/2 flex justify-center items-center relative">
+                class="border rounded border-t-0 border-l-0 w-1/2 h-1/2 relative">
                 <input type="checkbox" v-model="formsColor[indexF]" :value="formsColor" class="hidden">
-                <p class="text-[16vw] pt-2" >{{ form }}</p>
-                <img v-if="collectImg[indexF]" src="../assets/collectMark.png" alt="" class="max-w-[150%] absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
+                <p class="text-[16vw] pt-2 absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]" >{{ form }}</p>
+                <img v-if="collectImg[indexF]" src="../assets/collectMark.png" alt="" 
+                  class="max-w-[150%] absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]"  :class="'aaa'"
+                >
               </li>
             </ul><!-- 回答マス -->
           </div>
@@ -34,11 +36,11 @@
 
       <div class="w-1/4 h-[calc(100vh-80px)]">
         <div class="w-full h-2/5">
-          <button class="btn text-[2vw] animate-spin">名前</button>
+          <button class="btn text-[2vw]">名前</button>
           <p>きしだ</p>
-          <h2 class="w-[2vw] animate-wiggle">レベル：９９</h2>
+          <h2 class="w-[2vw] animate-wiggle" >レベル：９９</h2>
           <hr>
-          <h2 class="text-[2vw]">じかん</h2>
+          <h2 class="text-[2vw] animate-a">じかん</h2>
           <span class="countdown font-mono text-6xl">
             <span style="--value:99;"></span>
           </span>
@@ -48,7 +50,7 @@
           <button v-for="(numKey, index) in numKeys" @click="form_in(index)" class="btn w-1/3 h-1/5 text-[5vw] relative">
             {{ numKey }}
           <img v-if="eraser[index] === true" src="../assets/eraser.svg" alt=""
-            class="pb-2 w-[70%] absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] animate-jellohorizontal"
+            class="pb-2 w-[70%] absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]"
           >
           </button>
         </ul> <!-- 数値入力 -->
@@ -178,3 +180,25 @@ const form_in = (index: number) => {
 //同一ページか別ページか　同一ページはフォントサイズがめんどい　別ページはページ管理が4つ
 
 </script>
+
+<style>
+
+.aaa {
+  background-color: blue;
+  
+}
+
+.anim-box.fadein.is-animated {
+  animation: fadeIn 0.7s cubic-bezier(0.33, 1, 0.68, 1) 1 forwards;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+</style>
