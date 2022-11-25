@@ -43,8 +43,6 @@
             <span style="--value:99;"></span>
           </span>
         </div> <!-- プロフ -->
-
-<<<<<<< HEAD
         <ul class="flex flex-wrap h-3/5 mt-auto" >
           <div class="w-full h-1/5"></div>
           <button v-for="(numKey, index) in numKeys" @click="form_in(index)" class="btn w-1/3 h-1/5 text-[5vw] relative">
@@ -54,15 +52,12 @@
           >
           </button>
         </ul> <!-- 数値入力 -->
-=======
           <ul class="flex flex-wrap h-3/5 mt-auto" >
             <div class="w-full h-1/5"></div>
             <button v-for="(numKey, index) in numKeys" @click="form_in(index)" class="btn w-1/3 h-1/5 text-[5vw]">
               {{ numKey }}
             </button>
           </ul> <!-- 数値入力 comp化予定-->
-
->>>>>>> cef33f7b11f4a2f921ed3a45e5669b5c97201180
       </div> <!-- 右カラムの大枠 -->
     </div> <!-- 全体の大枠 -->
 
@@ -145,12 +140,8 @@ const ansSet = () => {
 }
 
 // 入力装置
-<<<<<<< HEAD
 const numKeys = ref([1,2,3,4,5,6,7,8,9,'♪','',0]) // SVGを配列に入れて表示できたらそれがベスト
-const eraser = [false,false,false,false,false,false,false,false,false,false,true,false,] // 難しかったのでこっちでやった
-=======
-const numKeys = ref([1,2,3,4,5,6,7,8,9,'♪','x',0]) //SVGを配列に入れて表示できたらそれがベスト
->>>>>>> cef33f7b11f4a2f921ed3a45e5669b5c97201180
+const eraser = ref([false,false,false,false,false,false,false,false,false,false,true,false,])
 
 // 答え入力、答え合わせロジック
 const forms: Ref<string[]> = ref([])
@@ -165,11 +156,7 @@ const collectImg = ref([false, false, false, false])
 const form_in = (index: number) => {
   if (numKeys.value[index] === '♪') { // 音符が押されたら
     alert('ピンポン')
-<<<<<<< HEAD
   } else if (numKeys.value[index] === '') { // けすが押されたら
-=======
-  } else if (numKeys.value[index] === 'x') { // けすが押されたら
->>>>>>> cef33f7b11f4a2f921ed3a45e5669b5c97201180
     forms.value[f.value] = ''
   } else { // 数字が押されたら
     if (forms.value[f.value].length < 2) { // 二文字制限
