@@ -12,5 +12,10 @@ export default defineNuxtConfig({
       src: "./assets/vendor/preline/dist/preline.js",
     } // head
   }, // app
-  modules: ["@nuxtjs/tailwindcss"],
+  css: [
+    '@/assets/css/main.css'
+  ],
+  modules: [
+    "@nuxtjs/tailwindcss",
+  ]
 })

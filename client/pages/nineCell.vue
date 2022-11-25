@@ -52,15 +52,21 @@
       <div class="modal-box bg-white w-11/12 max-w-5xl h-1/2">
         <h3 class="font-bold text-6xl text-center my-5">おめでとう！！</h3>
         <div class="h-3/4 flex justify-center items-center gap-12">
-          <button @click="randSet()" class="btn btn-primary bg-indigo-100 w-1/5 h-3/4">
-            <h3>もういっかい</h3>
-          </button>
-          <button @click="randSet" class="btn btn-secondary bg-purple-100 w-1/5 h-3/4" >
-            <h3>えらびなおす</h3>
-          </button>
-          <button @click="randSet" class="btn btn-secondary bg-purple-100 w-1/5 h-3/4" >
-            <h3>やめる</h3>
-          </button>
+          <NuxtLink to="/" class="w-full h-full">
+            <button @click="randSet()" class="btn btn-primary bg-indigo-100 w-1/5 h-3/4">
+              <h3>もういっかい</h3>
+            </button>
+          </NuxtLink>
+          <NuxtLink to="/" class="w-full h-full">
+            <button @click="randSet" class="btn btn-secondary bg-purple-100 w-1/5 h-3/4" >
+              <h3>えらびなおす</h3>
+            </button>
+          </NuxtLink>
+          <NuxtLink to="/" class="w-full h-full">
+            <button @click="randSet" class="btn btn-secondary bg-purple-100 w-1/5 h-3/4" >
+              <h3>やめる</h3>
+            </button>
+          </NuxtLink>
         </div>
       </div>
     </div><!-- 解き終えた後のモーダル -->
@@ -79,6 +85,7 @@ onMounted(() => {
   randSet()
   ansSet()
   formSet()
+  formsColor.value[0] = true
 })
 
 
@@ -129,7 +136,7 @@ const ansSet = () => {
 }
 
 // 入力装置
-const numKeys = ref([1,2,3,4,5,6,7,8,9,'♪','けす',0]) //SVGを配列に入れて表示できたらそれがベスト
+const numKeys = ref([1,2,3,4,5,6,7,8,9,'♪','x',0]) //SVGを配列に入れて表示できたらそれがベスト
 
 // 答え入力、答え合わせロジック
 const forms: Ref<string[]> = ref([])
@@ -143,7 +150,7 @@ let f = ref(0) // フォームの位置を決める数字
 const form_in = (index: number) => {
   if (numKeys.value[index] === '♪') { // 音符が押されたら
     alert('ピンポン')
-  } else if (numKeys.value[index] === 'けす') { // けすが押されたら
+  } else if (numKeys.value[index] === 'x') { // けすが押されたら
     forms.value[f.value] = ''
   } else { // 数字が押されたら
     if (forms.value[f.value].length < 2) { // 二文字制限

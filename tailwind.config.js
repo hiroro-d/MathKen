@@ -4,30 +4,28 @@ module.exports = {
     theme: {
         extend: {
             animation: {
-                heartbeat: "heartbeat 1.5s ease  infinite both"
+                jello_horizontal: 'jello_horizontal 0.8s ease both',
+                'spin-slow': 'spin 5s linear infinite',
             },
             keyframes: {
-                heartbeat: {
-                    "0%": {
-                        transform: "scale(1)",
-                        "transform-origin": "center center",
-                        "animation-timing-function": "ease-out"
+                jello_horizontal: {
+                    '0%,to': {
+                        transform: 'scale3d(1, 1, 1)'
                     },
-                    "10%": {
-                        transform: "scale(.91)",
-                        "animation-timing-function": "ease-in"
+                    '30%': {
+                        transform: 'scale3d(1.25, .75, 1)'
                     },
-                    "17%": {
-                        transform: "scale(.98)",
-                        "animation-timing-function": "ease-out"
+                    '40%': {
+                        transform: 'scale3d(.75, 1.25, 1)'
                     },
-                    "33%": {
-                        transform: "scale(.87)",
-                        "animation-timing-function": "ease-in"
+                    '50%': {
+                        transform: 'scale3d(1.15, .85, 1)'
                     },
-                    "45%": {
-                        transform: "scale(1)",
-                        "animation-timing-function": "ease-out"
+                    '65%': {
+                        transform: 'scale3d(.95, 1.05, 1)'
+                    },
+                    '75%': {
+                        transform: 'scale3d(1.05, .95, 1)'
                     }
                 }
             }

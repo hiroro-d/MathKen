@@ -23,9 +23,10 @@
             </ul><!-- 縦の問題マス -->
             <ul class="flex flex-wrap w-2/3 h-full">
               <li id="form" v-for="(form, indexF) in forms" v-bind:class="{formsBgc: formsColor[indexF]}" 
-                class="border rounded border-t-0 border-l-0 w-1/2 h-1/2 flex justify-center items-center">
+                class="border rounded border-t-0 border-l-0 w-1/2 h-1/2 flex justify-center items-center relative">
                 <input type="checkbox" v-model="formsColor[indexF]" :value="formsColor" class="hidden">
                 <p class="text-[16vw] pt-2" >{{ form }}</p>
+                <img v-if="collectImg[indexF]" src="../assets/collectMark.png" alt="" class="max-w-[150%] absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
               </li>
             </ul><!-- 回答マス -->
           </div>
@@ -33,16 +34,23 @@
 
       <div class="w-1/4 h-[calc(100vh-80px)]">
         <div class="w-full h-2/5">
-          <h2>なまえ：きしだ</h2>
-          <h2>レベル：９９</h2>
+          <button class="btn text-[2vw] animate-spin">名前</button>
+          <p>きしだ</p>
+          <h2 class="w-[2vw] animate-wiggle">レベル：９９</h2>
           <hr>
-          <h2>じかん</h2>
+          <h2 class="text-[2vw]">じかん</h2>
+          <span class="countdown font-mono text-6xl">
+            <span style="--value:99;"></span>
+          </span>
         </div> <!-- プロフ -->
 
         <ul class="flex flex-wrap h-3/5 mt-auto" >
           <div class="w-full h-1/5"></div>
-          <button v-for="(numKey, index) in numKeys" @click="form_in(index)" class="btn w-1/3 h-1/5 text-[5vw]">
+          <button v-for="(numKey, index) in numKeys" @click="form_in(index)" class="btn w-1/3 h-1/5 text-[5vw] relative">
             {{ numKey }}
+          <img v-if="eraser[index] === true" src="../assets/eraser.svg" alt=""
+            class="pb-2 w-[70%] absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] animate-jellohorizontal"
+          >
           </button>
         </ul> <!-- 数値入力 -->
       </div> <!-- 右カラムの大枠 -->
@@ -86,6 +94,7 @@ onMounted(() => {
   randSet()
   ansSet()
   formSet()
+  formsColor.value[0] = true
 })
 
 
@@ -126,7 +135,8 @@ const ansSet = () => {
 }
 
 // 入力装置
-const numKeys = ref([1,2,3,4,5,6,7,8,9,'♪','けす',0]) //SVGを配列に入れて表示できたらそれがベスト
+const numKeys = ref([1,2,3,4,5,6,7,8,9,'♪','',0]) // SVGを配列に入れて表示できたらそれがベスト
+const eraser = [false,false,false,false,false,false,false,false,false,false,true,false,] // 難しかったのでこっちでやった
 
 // 答え入力、答え合わせロジック
 const forms: Ref<string[]> = ref([])
@@ -136,17 +146,19 @@ const formSet = () => {
 }
 
 let f = ref(0) // フォームの位置を決める数字
+const collectImg = ref([false, false, false, false])
 
 const form_in = (index: number) => {
   if (numKeys.value[index] === '♪') { // 音符が押されたら
     alert('ピンポン')
-  } else if (numKeys.value[index] === 'けす') { // けすが押されたら
+  } else if (numKeys.value[index] === '') { // けすが押されたら
     forms.value[f.value] = ''
   } else { // 数字が押されたら
     if (forms.value[f.value].length < 2) { // 二文字制限
       forms.value[f.value] += numKeys.value[index] // 数値入力
       if (forms.value[f.value] === ans.value[f.value]) { // 答えが合っていたら
         formsColor.value[f.value] = !formsColor.value[f.value] // 今の位置の色を変える
+        collectImg.value[f.value] = !collectImg.value[f.value]
         if ( f.value < 3 ) {
           f.value++ // フォームの位置をずらす
           formsColor.value[f.value] = !formsColor.value[f.value] 

@@ -2,7 +2,7 @@ export const useModal = () => {
 //コースセレクト用のモーダル
   const symbol = useState('symbol', () => '') // 計算記号
   const cells = useState('cells', () => 0) // マス目
-  const formsColor = useState('formsColor', () => [true,false,false,false]) // マスの色 
+  const formsColor = useState('formsColor', () => [false,false,false,false]) // マスの色 
 
   const modal_1 = ref(false) // モーダル「何算？」
   const modal_2 = ref(false) // モーダル「何マス？」

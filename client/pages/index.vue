@@ -18,7 +18,7 @@
     </div>
 
     <div class="w-1/2 h-screen">
-      <img src="https://picsum.photos/seed/picsum/200/300" alt="" class="w-full h-screen">
+      <img src="../assets/MainVisual.jpg" alt="" class="w-full h-screen object-cover">
     </div>
   </div>
 </template>
