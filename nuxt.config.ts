@@ -10,7 +10,8 @@ export default defineNuxtConfig({
         { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" },
       ], // link
       src: "./assets/vendor/preline/dist/preline.js",
-    } // head
+    }, // head
+    pageTransition: { name: 'page', mode: 'out-in' }
   }, // app
   css: [
     '~/assets/css/main.css'

@@ -13,6 +13,7 @@ export const useModal = () => {
     modal_1.value = false
     modal_2.value = true
     symbol.value = '+'
+    sessionStorage.setItem('test', JSON.stringify(symbol.value))
   }
   const modalSwitch_multi = () => {
     modal_1.value = false
@@ -30,6 +31,9 @@ export const useModal = () => {
   }
 // 問題が終わった後のモーダル
   const modal_3 = ref(false) 
+
+// 問題を解く前のモーダル
+  const modal_4 = ref(false)
   
-  return { symbol, cells, modal_1, modal_2, modal_3, formsColor, modalSwitch_plus, modalSwitch_multi, modalSwitch_4cell, modalSwitch_9cell }
+  return { symbol, cells, modal_1, modal_2, modal_3, modal_4, formsColor, modalSwitch_plus, modalSwitch_multi, modalSwitch_4cell, modalSwitch_9cell }
 }

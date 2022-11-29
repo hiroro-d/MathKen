@@ -1,6 +1,5 @@
 <template>
   <div>
-    <button class="btn" @click="on">on {{ modal_1 }}</button>
     <input type="checkbox" id="my-modal-1" class="modal-toggle" v-model="modal_1"/>
     <div class="modal">
       <div class="modal-box bg-white w-11/12 max-w-[80%] h-4/5">
