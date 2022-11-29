@@ -50,7 +50,7 @@
                 きしだふみお
               </h2>
               <p class="mt-2">レベル：{{ 'level' }}</p>
-              <p>後{{ 'nextLV'}}回でレベルアップ</p>
+              <p>後{{ 'nextLV' }}回でレベルアップ</p>
             </div>
           </div>
 <!-- 時間 -->
@@ -129,23 +129,6 @@
 import { Ref } from 'Vue'
 import { useModal } from '../composables/useModal'
 const { symbol, cells, modal_3, modal_4, formsColor, } = useModal()
-
-//timer
-let second = ref(0)
-let minute = ref(0)
-const countUp = () => {
-  second.value++
-  if (second.value % 60 === 0) {
-    minute.value++
-    second.value -= 60
-  }
-}
-
-const gameStart = () => {
-  modal_4.value = false
-  setInterval(countUp, 1000);
-}
-
 
 //問題生成ロジック
 
@@ -228,6 +211,22 @@ const form_in = (index: number) => {
     } else {} // ３文字目を入力すると、間違えてるとポップアップを出したい
   } 
 }
+
+//timer 分と秒の表示と追加
+let second = ref(0)
+let minute = ref(0)
+
+//timer 動作処理
+  const gameStart = () => {
+    modal_4.value = false;
+    let timerId = setInterval(() => {
+      second.value++
+      if (second.value % 60 === 0) {
+        minute.value++
+        second.value -= 60
+      }
+    }, 1000)
+  }
 
 </script>
 
