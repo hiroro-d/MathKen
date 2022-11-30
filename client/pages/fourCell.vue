@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="relative">
 <!-- 全体の大枠 -->
     <div class="flex gap-12 p-10">
       <div class="w-3/4 h-[calc(100vh-80px)]">
@@ -47,10 +47,10 @@
             </div>
             <div class="card-body">
               <h2 class="card-title border-b-2 m-auto">
-                きしだふみお
+                {{ userName }}
               </h2>
               <p class="mt-2">レベル：{{ 'level' }}</p>
-              <p>後{{ 'nextLV' }}回でレベルアップ</p>
+              <p>後{{ 'nextLV' }}ポイントでレベルアップ</p>
             </div>
           </div>
 <!-- 時間 -->
@@ -84,43 +84,79 @@
 <!-- 解く前のモーダル -->
     <input type="checkbox" id="my-modal-4" class="modal-toggle" v-model="modal_4"/>
     <div class="modal">
-      <div class="modal-box bg-white w-1/2 max-w-5xl h-1/3 opacity-0.5">
+      <div class="modal-box bg-white w-1/2 max-w-5xl h-[35%] opacity-0.5">
 
-        <p>はじめてもいい？</p>
-        <button @click="gameStart()" class="btn">OK!</button>
-        <NuxtLink to="/courseSelect" class="w-full h-full">
-          <button @click="" class="btn btn-secondary bg-purple-100">
-            えらびなおす
+        <p class="text-center text-5xl mb-10 mt-5">はじめてもいい？</p>
+        <div class="flex gap-8 justify-center items-center">
+          <button @click="gameStart()" 
+            class="w-60 h-32 mb-10 py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md bg-blue-100 border border-transparent font-semibold text-blue-500 hover:text-white hover:bg-blue-500 focus:outline-none focus:ring-2 ring-offset-white focus:ring-blue-500 focus:ring-offset-2 transition-all text-5xl pb-1"
+          >OK!
           </button>
-        </NuxtLink>
-      </div>
-    </div>
-
-<!-- 解き終えた後のモーダル -->
-    <input type="checkbox" id="my-modal-3" class="modal-toggle" v-model="modal_3"/>
-    <div class="modal">
-      <div class="modal-box bg-white w-11/12 max-w-5xl h-1/2 opacity-0.5">
-        <h3 class="font-bold text-6xl text-center my-5">おめでとう！！</h3>
-        <div class="h-3/4 flex justify-center items-center gap-12">
-          <NuxtLink to="/" class="w-full h-full">
-            <button @click="" class="btn btn-primary bg-indigo-100 w-1/5 h-3/4">
-              <h3>もういっかい</h3>
-            </button>
-          </NuxtLink>
-          <NuxtLink to="/courseSelect" class="w-full h-full">
-            <button @click="" class="btn btn-secondary bg-purple-100 w-1/5 h-3/4" >
-              <h3>えらびなおす</h3>
-            </button>
-          </NuxtLink>
-          <NuxtLink to="/" class="w-full h-full">
-            <button @click="" class="btn btn-secondary bg-purple-100 w-1/5 h-3/4" >
-              <h3>やめる</h3>
+          <NuxtLink to="/courseSelect" class="">
+            <button @click="" 
+              class="w-60 h-32 mb-10 py-3 px-4 inline-flex justify-center items-center gap-2 rounded-md bg-yellow-100 border border-transparent font-semibold text-yellow-500 hover:text-white hover:bg-yellow-500 focus:outline-none focus:ring-2 ring-offset-white focus:ring-yellow-500 focus:ring-offset-2 transition-all text-4xl pb-1"
+            >
+              やりなおす
             </button>
           </NuxtLink>
         </div>
       </div>
     </div>
 
+<!-- 解き終えた後のモーダル -->
+    <input type="checkbox" id="my-modal-3" class="modal-toggle" v-model="modal_3"/>
+    <div class="modal">
+      <div class="modal-box bg-white w-11/12 max-w-5xl h-2/3">
+<!-- クリアイラスト -->
+        <div class="flex justify-center mb-5">
+          <img src="../assets/congrats.png" alt="がんばりました" class="w-[40%]">
+        </div>
+        <p class="w-[15%] leading-[36px] text-[1.5rem] text-blue-300"> + {{ getEx }}</p>
+
+<!-- 経験値バー -->
+        <div class="w-[90%] flex gap-8 justify-center mb-3 mx-auto">
+          <p class="w-[15%] leading-[38px] text-[1.5rem]">レベル.{{ userLv }}</p>
+          <div class="indicator w-[90%]">
+            <span class="indicator-item badge badge-secondary"> + {{ getEx }}</span> 
+            <div class="w-full flex h-8 bg-gray-200 rounded-full overflow-hidden dark:bg-gray-700">
+              <div class="flex flex-col justify-center overflow-hidden bg-green-300 text-xs text-white text-center" role="progressbar" style="width: 57%" aria-valuenow="57" aria-valuemin="0" aria-valuemax="100">{{ getEx }}%</div>
+            </div>
+          </div>
+        </div>
+<!-- 時間とランキング -->
+        <div class="w-[80%] border-2 flex justify-center gap-[1rem] mb-5 mx-auto">
+          <div class="w-full text-center shadow-lg border-4 border-gray-300 rounded-[2rem] py-[1rem] px-[1.5rem]">
+            <p class="text-[1.5rem]">じかん</p>
+            <p class="text-[1.5rem]">{{ minute }} ふん {{ second }} びょう</p>
+          </div>
+          <div class="w-full text-center shadow-lg border-4 border-gray-300 rounded-[2rem] py-[1rem] px-[1.5rem]">
+            <p class="text-[1.5rem]">ランキング</p>
+            <p class="text-[1.5rem]">{{ "userRank" }} い</p>
+          </div>
+        </div>
+<!-- コース選択 -->
+        <div class="flex w-full h-[26%]">
+          <div class="h-full w-11/12 flex justify-center items-center gap-[7rem]">
+            <NuxtLink to="/" class="w-1/3 h-full">
+              <button @click="" class="btn btn-primary bg-indigo-100 w-full h-full">
+                <h3>もういっかい</h3>
+              </button>
+            </NuxtLink>
+            <NuxtLink to="/courseSelect" class="w-1/3 h-full ">
+              <button @click="" class="btn btn-secondary bg-purple-100 w-full h-full" >
+                <h3>えらびなおす</h3>
+              </button>
+            </NuxtLink>
+          </div>
+          <NuxtLink to="/" class="w-1/12 h-[10%] text-right mt-auto mb-5 ml-auto mr-0">
+            <button @click="" class="btn btn-secondary bg-purple-100 w-[10%] h-[10%]" >
+              <h3>やめる</h3>
+            </button>
+          </NuxtLink>
+        </div>
+      </div>
+      <confetti v-if="modal_3 === true" class="z-[-1]"/>
+    </div>
   </div>
 </template>
 
@@ -130,6 +166,14 @@ import { Ref } from 'Vue'
 import { useModal } from '../composables/useModal'
 const { symbol, cells, modal_3, modal_4, formsColor, } = useModal()
 
+// プロフ
+const userName = 'きしだふみお'
+const userLv = ref(1)
+const userEx = 0
+const getEx = ref(37)
+const needEx = 0
+const userNextLvEx = 0 
+
 //問題生成ロジック
 
 onMounted(() => {
@@ -138,6 +182,7 @@ onMounted(() => {
   formSet()
   formsColor.value[0] = true
   modal_4.value = true
+  modal_3.value = true  //   今だけええええええええええええええええええ
 })
 
 const randXs: Ref<number[]> = ref([])
@@ -206,6 +251,7 @@ const form_in = (index: number) => {
           formsColor.value[f.value] = !formsColor.value[f.value] 
         } else {
           modal_3.value = true
+          clearInterval(timerId)
         } // モーダルを出す----------------------------------------------後で追加
       } else {} // 答えが間違っていたら何もしない
     } else {} // ３文字目を入力すると、間違えてるとポップアップを出したい
@@ -215,11 +261,12 @@ const form_in = (index: number) => {
 //timer 分と秒の表示と追加
 let second = ref(0)
 let minute = ref(0)
+let timerId: string | number | NodeJS.Timeout | undefined;
 
 //timer 動作処理
   const gameStart = () => {
     modal_4.value = false;
-    let timerId = setInterval(() => {
+    timerId = setInterval(() => {
       second.value++
       if (second.value % 60 === 0) {
         minute.value++

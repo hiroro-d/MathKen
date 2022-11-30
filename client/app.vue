@@ -1,5 +1,5 @@
 <template>
-  <div class="varela">
+  <div class="varela text-gray-700">
     <NuxtPage />
   </div>
 </template>
