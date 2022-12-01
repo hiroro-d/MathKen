@@ -107,23 +107,22 @@
     <input type="checkbox" id="my-modal-3" class="modal-toggle" v-model="modal_3"/>
     <div class="modal">
       <div class="modal-box bg-white w-11/12 max-w-5xl h-2/3">
-<!-- クリアイラスト -->
+  <!-- クリアイラスト -->
         <div class="flex justify-center mb-5">
           <img src="../assets/congrats.png" alt="がんばりました" class="w-[40%]">
         </div>
-        <p class="w-[15%] leading-[36px] text-[1.5rem] text-blue-300"> + {{ getEx }}</p>
 
-<!-- 経験値バー -->
+  <!-- 経験値バー -->
         <div class="w-[90%] flex gap-8 justify-center mb-3 mx-auto">
           <p class="w-[15%] leading-[38px] text-[1.5rem]">レベル.{{ userLv }}</p>
           <div class="indicator w-[90%]">
-            <span class="indicator-item badge badge-secondary"> + {{ getEx }}</span> 
+            <span class="indicator-item badge w-10 h-full text-[1.6rem]"> + {{ getEx }}</span> 
             <div class="w-full flex h-8 bg-gray-200 rounded-full overflow-hidden dark:bg-gray-700">
               <div class="flex flex-col justify-center overflow-hidden bg-green-300 text-xs text-white text-center" role="progressbar" style="width: 57%" aria-valuenow="57" aria-valuemin="0" aria-valuemax="100">{{ getEx }}%</div>
             </div>
           </div>
         </div>
-<!-- 時間とランキング -->
+  <!-- 時間とランキング -->
         <div class="w-[80%] border-2 flex justify-center gap-[1rem] mb-5 mx-auto">
           <div class="w-full text-center shadow-lg border-4 border-gray-300 rounded-[2rem] py-[1rem] px-[1.5rem]">
             <p class="text-[1.5rem]">じかん</p>
@@ -134,7 +133,7 @@
             <p class="text-[1.5rem]">{{ "userRank" }} い</p>
           </div>
         </div>
-<!-- コース選択 -->
+  <!-- コース選択 -->
         <div class="flex w-full h-[26%]">
           <div class="h-full w-11/12 flex justify-center items-center gap-[7rem]">
             <NuxtLink to="/" class="w-1/3 h-full">
