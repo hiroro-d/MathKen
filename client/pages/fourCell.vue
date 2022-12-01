@@ -48,7 +48,7 @@
               <h2 class="card-title border-b-2 m-auto">
                 {{ userName }}
               </h2>
-              <p class="mt-2">レベル：{{ 'level' }}</p>
+              <p class="mt-2">レベル：{{ userLv }}</p>
               <p>後{{ 'nextLV' }}ポイントでレベルアップ</p>
             </div>
           </div>
