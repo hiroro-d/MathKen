@@ -4,8 +4,9 @@ module.exports = {
     theme: {
         extend: {
             animation: {
-                a: 'a 0.8s ease both',
-                wiggle: 'wiggle 1s ease-in-out infinite'
+                fadeIn: 'fadeIn 0.8s ease',
+                wiggle: 'wiggle 1s ease-in-out infinite',
+                ping: 'ping 1s cubic-bezier(0, 0, 0.2, 1)',
             },
             keyframes: {
                 wiggle: {
