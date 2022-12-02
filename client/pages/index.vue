@@ -1,5 +1,6 @@
 <template>
   <div class="flex">
+    <NuxtLink to="/ranking">aaa</NuxtLink>
     <div class="w-1/2 h-screen flex flex-col items-center justify-center">
       <p class="mb-10 text-5xl">ぐんぐんのびる</p>
       <p class="mb-20 text-8xl font-bold">ます・けん</p>

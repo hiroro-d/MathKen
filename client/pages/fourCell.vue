@@ -46,9 +46,9 @@
             </div>
             <div class="card-body">
               <h2 class="card-title border-b-2 m-auto">
-                {{ userName }}
+                {{ userInfo.userName }}
               </h2>
-              <p class="mt-2">レベル：{{ userLv }}</p>
+              <p class="mt-2">レベル：{{ 'level' }}</p>
               <p>後{{ 'nextLV' }}ポイントでレベルアップ</p>
             </div>
           </div>
@@ -85,7 +85,6 @@
     <input type="checkbox" id="my-modal-4" class="modal-toggle" v-model="modal_4"/>
     <div class="modal">
       <div class="modal-box bg-white w-1/2 max-w-5xl h-[35%] opacity-0.5">
-
         <p class="text-center text-5xl mb-10 mt-5">はじめてもいい？</p>
         <div class="flex gap-8 justify-center items-center">
           <button @click="gameStart()" 
@@ -102,18 +101,32 @@
         </div>
       </div>
     </div>
-
 <!-- 解き終えた後のモーダル -->
     <input type="checkbox" id="my-modal-3" class="modal-toggle" v-model="modal_3"/>
     <div class="modal">
-      <div class="modal-box bg-white w-11/12 max-w-5xl h-2/3">
+      <div class="modal-box bg-white w-11/12 max-w-5xl h-2/3 rerative">
+  <!-- ランキングのドロワーメニュー -->
+            <div :class="{drawerZOn: zInActiveOn, drawerZOff: zInActiveOff,}" class="drawer drawer-end absolute z-[-1] !w-[calc(100%-48px)] !h-[calc(100%-48px)]">
+              <input id="my-drawer-4" type="checkbox" class="drawer-toggle" v-model="rankView" />
+              <div class="drawer-side">
+                <label for="my-drawer-4" @click="showRanking" class="drawer-overlay"></label>
+                <ul class="menu p-4 w-[35%] bg-base-100 text-base-content">
+                  <!-- Sidebar content here -->
+                  <div v-for="humio in 10" class="mb-10">
+                    <li>１位</li>
+                    <li v-if="(rankBox.length > 0)">{{ rankBox[0].userName }}</li>
+                    <li>{{ minute }} ふん {{ second }} びょう</li>
+                  </div>
+                </ul>
+              </div>
+            </div>
   <!-- クリアイラスト -->
         <div class="flex justify-center mb-5">
           <img src="../assets/congrats.png" alt="がんばりました" class="w-[40%]" :class="{fadeIn: active}">
         </div>
   <!-- 経験値バー -->
         <div class="w-[90%] flex gap-8 justify-center mb-3 mx-auto">
-          <p class="w-[15%] leading-[38px] text-[1.5rem]">レベル.{{ userLv }}</p>
+          <p class="w-[15%] leading-[38px] text-[1.5rem]">レベル.{{ userInfo.userLv }}</p>
           <div class="relative w-full">
             <div class="relative w-full flex h-8 bg-gray-200 rounded-full overflow-hidden dark:bg-gray-700">
               <div class="flex flex-col justify-center overflow-hidden bg-green-300 text-[1.2rem] text-white text-center" :class="{exBar: active}" role="progressbar" :style="{ width: userEx + '%'}" aria-valuenow="57" aria-valuemin="0" aria-valuemax="100"></div>
@@ -130,11 +143,12 @@
           </div>
           <div class="w-full text-center shadow-lg border-4 border-gray-300 rounded-[2rem] py-[1rem] px-[1.5rem]">
             <p class="text-[1.5rem]">ランキング</p>
-            <p class="text-[1.5rem]">{{ "userRank" }} い</p>
+            <span class="text-[1.5rem]">{{ "userRank" }} い</span><button @click="showRanking" class="btn">みる</button>
           </div>
           <div class="w-full text-center shadow-lg border-4 border-gray-300 rounded-[2rem] py-[1rem] px-[1.5rem]">
             <p class="text-[1.5rem]">クリアしたかいすう</p>
-            <p class="text-[1.5rem]">{{ "userTryCount" }}</p>
+            <p v-if="symbol === '+'" class="text-[1.5rem]">{{ userInfo.userTryCount_Add }} かい</p>
+            <p v-if="symbol === 'x'" class="text-[1.5rem]">{{ userInfo.userTryCount_Multi }} かい</p>
           </div>
         </div>
   <!-- コース選択 -->
@@ -161,23 +175,64 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts">//データ送る　呼び出す　表示するときにsortで並び替える
 
 import { Ref } from 'Vue'
 import { useModal } from '../composables/useModal'
-const { symbol, cells, modal_3, modal_4, formsColor, } = useModal()
+const { symbol, cells, modal_3, modal_4, formsColor, rankView, zInActiveOn, zInActiveOff, showRanking } = useModal()
 
+// スイッチ系
 const active = ref(false) // fadeIN用オンオフ
 const restartActive = ref(false) // リトライ用オンオフ
 const blurActive = ref(false) // 問題ぼかし用オンオフ
 
+// ランキングシステム
+const rankBox: Ref<any> = ref([])
+const rankPush = () => {
+  rankBox.value.push(userInfo)
+  localStorage.setItem('rankBox', JSON.stringify(rankBox.value))
+}
+const rankPull = () => {
+  rankBox.value = JSON.parse(localStorage.getItem('rankBox'))
+  console.log(rankBox.value)
+}
+
+const userEx = ref(0)  //プロフに入れると経験値バーが動かない
 // プロフ
-const userName = 'きしだふみお'
-const userLv = ref(1)
-const userEx = ref(0)
+const userInfo = {
+  userName: 'きしだふみお',
+  userLv: ref(1),
+
+  userTryCount_Add: ref(0),
+  userTryCount_Multi: ref(0),
+  needEx: 0,
+  userNextLvEx: 0,
+}
+
+// クリアした回数
+
+const saveTryCount = () => {
+  if (symbol.value === '+') {
+    userInfo.userTryCount_Add.value++
+    localStorage.setItem('tryCountAdd', JSON.stringify(userInfo.userTryCount_Add.value))
+  } else if (symbol.value === 'x') {
+    userInfo.userTryCount_Multi.value++
+    localStorage.setItem('tryCountMulti', JSON.stringify(userInfo.userTryCount_Multi.value))
+  } else {} // 引き算拡張用
+}
+const loadTryCount = () => {
+  if (symbol.value === '+') {
+    let add = localStorage.getItem('tryCountAdd')
+    userInfo.userTryCount_Add.value = Number(add)
+  } else if (symbol.value === 'x') {
+    let multi = localStorage.getItem('tryCountMulti')
+    userInfo.userTryCount_Multi.value = Number(multi)
+  } else {} // 引き算拡張用
+}
 
 
 // Ex計算
+const getEx = ref(0)
 const exCalc = () => {
   getEx.value = 100 - (second.value + minute.value * 60)
   let getExSave = getEx.value
@@ -195,14 +250,9 @@ const exCalc = () => {
 const lvUp = () => {
   if ( userEx.value >= 100 ) {
     userEx.value = userEx.value - 100
-    userLv.value++
+    userInfo.userLv.value++
   }
 }
-
-const getEx = ref(0)
-const userTryCount = 0
-const needEx = 0
-const userNextLvEx = 0 
 
 // 問題生成ロジック
 
@@ -307,11 +357,15 @@ const form_in = (index: number) => {
           f.value++ // フォームの位置をずらす
           formsColor.value[f.value] = !formsColor.value[f.value] 
         } else {
-          exCalc()
+          exCalc() //経験値の計算
           active.value = true
-          clearInterval(timerId)
+          clearInterval(timerId) //タイマーを止める
           modal_3.value = true
           restartActive.value = false
+          saveTryCount() //クリア回数の記録
+          loadTryCount() //クリア回数の呼び出し
+          rankPush() //ランキング用の情報をローカルに入力
+          rankPull() //ランキング用の情報をローカルに出力
         } // モーダルを出す----------------------------------------------後で追加
       } else {} // 答えが間違っていたら何もしない
     } else {} // ３文字目を入力すると、間違えてるとポップアップを出したい
@@ -323,10 +377,11 @@ let second = ref(0)
 let minute = ref(0)
 let timerId: string | number | NodeJS.Timeout | undefined;
 
-//timer 動作処理
+//ゲームスタートとtimer
   const gameStart = () => {
     modal_4.value = false;
     blurActive.value = false
+    loadTryCount()
     timerId = setInterval(() => {
       second.value++
       if (second.value % 60 === 0) {
@@ -342,6 +397,13 @@ let timerId: string | number | NodeJS.Timeout | undefined;
 
 .blur {
   filter: blur(20px) opacity(16%) saturate(300%);
+}
+
+.drawerZOn {
+  z-index: 10000;
+}
+.drawerZOff {
+  z-index: -10000;
 }
 
 #eraser:hover {

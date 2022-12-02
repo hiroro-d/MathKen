@@ -34,6 +34,26 @@ export const useModal = () => {
 
 // 問題を解く前のモーダル
   const modal_4 = ref(false)
+
+// 仮でランキングドロワー用のデータを置く
+
+const rankView = ref(false) // ランキングのドロワー用オンオフ
+const zInActiveOn = ref(false)
+const zInActiveOff = ref(true)
+const showRanking = () => {
+  rankView.value = !rankView.value
+  if (rankView.value === true) {
+    zInActiveOn.value = !zInActiveOn.value
+    zInActiveOff.value = !zInActiveOff.value
+  } else {
+    rankView.value = !rankView.value
+    setTimeout(() => {
+      zInActiveOn.value = !zInActiveOn.value
+      zInActiveOff.value = !zInActiveOff.value
+    }, 250)
+  }
+
+}
   
-  return { symbol, cells, modal_1, modal_2, modal_3, modal_4, formsColor, modalSwitch_plus, modalSwitch_multi, modalSwitch_4cell, modalSwitch_9cell }
+  return { symbol, cells, modal_1, modal_2, modal_3, modal_4, formsColor, modalSwitch_plus, modalSwitch_multi, modalSwitch_4cell, modalSwitch_9cell, rankView, zInActiveOn, zInActiveOff, showRanking }
 }

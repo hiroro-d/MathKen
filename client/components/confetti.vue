@@ -41,6 +41,7 @@
 	width: 1.5vw;
 	height: 1vw;
 	background: #FFF;
+	z-index: 1000000;
 }
 
 /* add animation */
