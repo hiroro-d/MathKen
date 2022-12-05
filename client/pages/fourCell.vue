@@ -193,7 +193,7 @@ const rankPush = () => {
   localStorage.setItem('rankBox', JSON.stringify(rankBox.value))
 }
 const rankPull = () => {
-  rankBox.value = JSON.parse(localStorage.getItem('rankBox'))
+  // rankBox.value = JSON.parse(localStorage.getItem('rankBox'))
   console.log(rankBox.value)
 }
 
