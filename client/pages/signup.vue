@@ -6,12 +6,15 @@
     <button @click="signup">signup</button>
     <button @click="statecheck" class="btn">ログイン状態確認</button>
     <button @click="logout" class="btn">ログアウト</button>
+    <h2>{{ $hello('kishidahumio') }}</h2>
   </div>
 </template>
 
 <script setup>
 import { auth } from '../firebase'
 import { createUserWithEmailAndPassword, onAuthStateChanged, signOut } from 'firebase/auth';
+
+const { $hello } = useNuxtApp();
 
 const authData = auth;
 const email = ref('');
