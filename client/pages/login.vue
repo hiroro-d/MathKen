@@ -1,9 +1,18 @@
 <template>
-  <div>
-    <h1>aaaaa</h1>
-    <input type="text" v-model="email" class="border-2">
-    <input type="text" v-model="password" class="border-2">
-    <button @click="login">login</button>
+  <div class="w-full h-screen flex justify-center items-center">
+    <div class="card w-96 bg-base-100 shadow-xl">
+      <figure><img src="https://placeimg.com/400/225/arch" alt="Shoes" /></figure>
+        <h2 class="card-title">Eメール、パスワードを入力してね。</h2>
+        <div class="card-body">
+          <input type="text" v-model="email" class="border-2">
+          <input type="text" v-model="password" class="border-2">
+          <button @click="login" class="btn btn-info">ログイン</button>
+          <div class="card-actions justify-end">
+            <NuxtLink to="/signup">とうろくはこちら</NuxtLink>
+          </div>
+        </div>
+        <button @click="statecheck">ログインチェック</button>
+    </div>
   </div>
 </template>
 

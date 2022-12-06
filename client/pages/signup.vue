@@ -1,55 +1,50 @@
 <template>
-  <div>
-    <h1>aaaaa</h1>
-    <input type="text" v-model="email" class="border-2">
-    <input type="text" v-model="password" class="border-2">
-    <button @click="signup">signup</button>
-    <button @click="statecheck" class="btn">ログイン状態確認</button>
-    <button @click="logout" class="btn">ログアウト</button>
-    <h2>{{ $hello('kishidahumio') }}</h2>
+  <div class="w-full h-screen flex justify-center items-center">
+    <div class="card w-96 bg-base-100 shadow-xl">
+      <figure><img src="https://placeimg.com/400/225/arch" alt="Shoes" /></figure>
+        <h2 class="card-title">名前、Eメール、パスワードを入力してね。</h2>
+        <div class="card-body">
+          <input type="text" v-model="userName" class="border-2">
+          <input type="text" v-model="email" class="border-2">
+          <input type="text" v-model="password" class="border-2">
+          <button @click="signup">signup</button>
+          <button @click="logout" class="btn">ログアウト</button>
+          <div class="card-actions justify-end">
+            <NuxtLink to="/login">ログインはこちら</NuxtLink>
+          </div>
+        </div>
+        <button @click="statecheck">ログインチェック</button>
+    </div>
   </div>
 </template>
 
 <script setup>
-import { auth } from '../firebase'
+import { auth, db } from '../firebase'
 import { createUserWithEmailAndPassword, onAuthStateChanged, signOut } from 'firebase/auth';
-
-const { $hello } = useNuxtApp();
+import { addDoc, collection } from 'firebase/firestore';
 
 const authData = auth;
+const dbData = db;
+const userName = ref('');
 const email = ref('');
 const password = ref('');
+const router = useRouter()
 
-const signup = () => {
-  createUserWithEmailAndPassword(authData, email.value, password.value)
-    .then((userCredential) => {
-      // Signed in 
-      const user = userCredential.user;
-      alert('success')
-      // ...
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      // ..
-    })
-}
-
-const statecheck = () => {
-  onAuthStateChanged(authData, (user) => {
-    if (user) {
-      // User is signed in, see docs for a list of available properties
-      // https://firebase.google.com/docs/reference/js/firebase.User
-      const uid = ref(user.uid);
-      console.log('signin')
-      console.log(user.uid)
-      // ...
-    } else {
-      // User is signed out
-      // ...
-      console.log('signout')
-    }
-  })
+const signup = async() => {
+  try {
+    const userCredential = await createUserWithEmailAndPassword(authData, email.value, password.value);
+    const user = userCredential.user;
+    // const docRef = await addDoc(collection(dbData, "users"), {
+    //   name: userName.value,
+    //   uid: user.uid
+    // });
+    // console.log(docRef.id);
+    alert('success');
+    router.push('/myPage');
+  } catch(error) {
+    console.error(error);
+    alert('Error creating user:', error.message);
+  }
 }
 
 const logout = () => {
@@ -62,4 +57,17 @@ const logout = () => {
   })
 }
 
+const statecheck = () => {
+  onAuthStateChanged(authData, (user) => {
+    if (user) {
+      const uid = ref(user.uid);
+      console.log(user)
+      console.log('signin')
+      console.log(user.uid)
+    } else {
+      console.log('signout')
+    }
+  })
+}
 </script>
+
