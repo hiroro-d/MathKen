@@ -14,6 +14,8 @@
           </div>
         </div>
         <button @click="statecheck">ログインチェック</button>
+        <button @click="addUser">addDocチェック</button>
+        <button @click="userUID">setDoc</button>
     </div>
   </div>
 </template>
@@ -21,7 +23,7 @@
 <script setup>
 import { auth, db } from '../firebase'
 import { createUserWithEmailAndPassword, onAuthStateChanged, signOut } from 'firebase/auth';
-import { addDoc, collection } from 'firebase/firestore';
+import { addDoc, collection, setDoc} from 'firebase/firestore';
 
 const authData = auth;
 const dbData = db;
@@ -32,13 +34,9 @@ const router = useRouter()
 
 const signup = async() => {
   try {
-    const userCredential = await createUserWithEmailAndPassword(authData, email.value, password.value);
-    const user = userCredential.user;
-    // const docRef = await addDoc(collection(dbData, "users"), {
-    //   name: userName.value,
-    //   uid: user.uid
-    // });
-    // console.log(docRef.id);
+    const userCredential = await createUserWithEmailAndPassword(
+      authData, email.value, password.value
+    );
     alert('success');
     router.push('/myPage');
   } catch(error) {
@@ -69,5 +67,24 @@ const statecheck = () => {
     }
   })
 }
-</script>
 
+const addUser = async() => {
+  const addStore = await addDoc(collection(dbData, "users"), {
+    name: userName.value,
+  })
+  .then(() => {
+    console.log(addStore)
+  })
+  .catch(error => {
+    console.log(error)
+  })
+}
+
+const userUID = async() => {
+    const user = authData.currentUser;
+    const uid = user.uid 
+    await setDoc(doc(dbData, 'user', uid), {
+    uid: uid
+  })
+}
+</script>

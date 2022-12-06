@@ -32,8 +32,7 @@ const login = () => {
       // Signed in 
       const user = userCredential.user;
       alert('success')
-      router.push('/courseSelect')
-      // ...
+      router.push('/myPage')
     })
     .catch((error) => {
       const errorCode = error.code;
