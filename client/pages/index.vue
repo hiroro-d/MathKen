@@ -1,6 +1,5 @@
 <template>
   <div class="flex">
-    <NuxtLink to="/ranking">aaa</NuxtLink>
     <div class="w-1/2 h-screen flex flex-col items-center justify-center">
       <p class="mb-10 text-5xl">ぐんぐんのびる</p>
       <p class="mb-20 text-8xl font-bold">ます・けん</p>
@@ -27,8 +26,7 @@
     </div>
 
     <div class="w-1/2 h-screen">
-      <img src="../assets/MainVisual2.jpg" alt="" class="w-full h-auto object-cover">
-      <img src="../assets/MainVisual.jpg" alt="" class="w-full h-auto object-cover">
+      <img src="../assets/MainVisual.jpg" alt="" class="w-full h-full object-cover">
     </div>
   </div>
 </template>
